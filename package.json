@@ -2,10 +2,18 @@
   "name": "eslint-config-auto",
   "version": "1.0.0",
   "description": "Automatic ESLint configuration for JS, Node, React, Vue, Next.js, and more.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
+    "lint": "eslint .",
+    "test": "vitest"
   },
   "keywords": [
     "eslint",
@@ -21,15 +29,23 @@
   "license": "MIT",
   "dependencies": {
     "@eslint/js": "^9.0.0",
+    "@next/eslint-plugin-next": "^14.2.3",
     "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-html": "^8.1.1",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-vue": "^9.25.0",
     "globals": "^15.1.0",
     "typescript-eslint": "^7.7.0",
-    "vue-eslint-parser": "^9.4.2",
-    "@next/eslint-plugin-next": "^14.2.3",
-    "eslint-config-prettier": "^9.1.0"
+    "vue-eslint-parser": "^9.4.2"
+  },
+  "devDependencies": {
+    "@types/eslint": "^9.6.1",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^25.3.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }
