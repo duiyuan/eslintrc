@@ -38,6 +38,18 @@ export interface OptionsConfig {
   html?: boolean;
 
   /**
+   * 是否启用 Unicorn 支持 (代码实践)
+   * @default true
+   */
+  unicorn?: boolean;
+
+  /**
+   * 是否启用导入排序
+   * @default true
+   */
+  imports?: boolean;
+
+  /**
    * 自定义规则覆盖
    */
   overrides?: Linter.Config;

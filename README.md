@@ -1,71 +1,99 @@
 # eslint-config-auto
 
-一个自动化的 ESLint 配置包，支持 JS/Node 环境区分，并适配 React、Vue、Next.js、TypeScript 和 HTML。
+企业级、全自动、开箱即用的 ESLint 配置预设。
 
 ## 特性
 
-- 🚀 **自动化**: 自动检测项目依赖（React, Vue, Next.js）并应用相应配置。
-- 🌍 **环境适配**: 自动区分 Node.js 和 浏览器环境。
-- 🛠️ **多语言支持**: 支持 JavaScript, TypeScript, TSX, JSX, Vue, HTML。
-- 📦 **开箱即用**: 符合最新的 ESLint Flat Config (eslint.config.js) 标准。
+-   🚀 **全自动检测**：自动识别项目中的 React, Vue, Next.js, TypeScript 等技术栈。
+-   🛠️ **模块化设计**：配置分层，支持按需开启或关闭特定功能。
+-   ✨ **现代规则集**：
+    -   内置 `eslint-plugin-unicorn` 提供 100+ 最佳代码实践规则。
+    -   内置 `eslint-plugin-import-x` 实现严格的导入语句排序与校验。
+    -   完美集成 `prettier`，解决格式化冲突。
+-   🛡️ **类型安全**：基于 TypeScript 编写，提供完整的 IDE 配置补全。
+-   📦 **多格式支持**：同时支持 ESM 和 CommonJS。
 
 ## 安装
 
 ```bash
-npm install --save-dev eslint-config-auto eslint
+npm install -D eslint-config-auto eslint
 ```
 
-## 使用方法
+## 使用
 
-在你的项目根目录下创建 `eslint.config.js`:
+在项目根目录创建 `eslint.config.js`：
 
-### 基础用法 (自动检测)
+### 基础用法
 
 ```javascript
-import autoConfig from 'eslint-config-auto';
+import auto from 'eslint-config-auto';
 
-export default [
-  ...autoConfig,
-  // 你可以在这里添加自定义规则
-];
+export default auto;
 ```
 
-### 高级用法 (手动指定)
+### 高级配置
 
-如果你想手动控制开启哪些功能，可以使用 `defineConfig`:
+你可以使用 `defineConfig` 函数进行自定义：
 
 ```javascript
 import { defineConfig } from 'eslint-config-auto';
 
 export default defineConfig({
-  env: 'node', // 强制指定为 node 环境
-  ts: true,    // 开启 TypeScript 支持
-  react: true, // 开启 React 支持
-  vue: false,  // 关闭 Vue 支持
-  html: true,  // 开启 HTML 支持
+  // 手动指定环境
+  env: 'browser',
+  
+  // 开启/关闭特定功能
+  ts: true,
+  vue: false,
+  unicorn: true,
+  
+  // 自定义规则覆盖
   overrides: {
     rules: {
-      'no-console': 'off'
+      'no-console': 'error',
+      'unicorn/filename-case': 'off'
     }
   }
 });
 ```
 
-## 支持的环境与框架
+## 配置选项
 
-- **环境**: Node.js, Browser, ES2021+
-- **框架**: React, Vue (v3+), Next.js
-- **文件类型**: `.js`, `.jsx`, `.ts`, `.tsx`, `.vue`, `.html`
+| 选项 | 类型 | 默认值 | 说明 |
+| :--- | :--- | :--- | :--- |
+| `env` | `'node' \| 'browser' \| 'auto'` | `'auto'` | 运行环境，auto 模式下自动检测依赖 |
+| `ts` | `boolean` | `true` | 是否启用 TypeScript 支持 |
+| `vue` | `boolean` | `auto` | 是否启用 Vue 支持 (自动检测) |
+| `react` | `boolean` | `auto` | 是否启用 React 支持 (自动检测) |
+| `next` | `boolean` | `auto` | 是否启用 Next.js 支持 (自动检测) |
+| `unicorn` | `boolean` | `true` | 是否启用 Unicorn (代码最佳实践) |
+| `imports` | `boolean` | `true` | 是否启用导入排序 |
+| `html` | `boolean` | `true` | 是否启用 HTML 文件校验 |
+| `overrides` | `Linter.Config` | `{}` | 自定义规则覆盖 |
 
-## 默认忽略
+## 导入排序规则
 
-默认忽略以下目录：
-- `node_modules`
-- `dist`
-- `build`
-- `.next`
-- `out`
+本项目内置了严格的导入排序，默认顺序如下：
 
-## 许可证
+1.  React/Vue 等核心框架
+2.  外部依赖 (External)
+3.  内部别名 (Internal, 如 `@/**`)
+4.  父级/兄弟目录 (Parent/Sibling)
+5.  类型导入 (Type)
+
+## 开发与贡献
+
+```bash
+# 安装依赖
+npm install
+
+# 运行测试
+npm test
+
+# 构建项目
+npm run build
+```
+
+## License
 
 MIT

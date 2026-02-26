@@ -4,6 +4,8 @@ import { react } from './configs/react';
 import { vue } from './configs/vue';
 import { next } from './configs/next';
 import { html } from './configs/html';
+import { unicorn } from './configs/unicorn';
+import { imports } from './configs/imports';
 import { prettier } from './configs/prettier';
 import type { OptionsConfig } from './types';
 import type { Linter } from 'eslint';
@@ -30,6 +32,8 @@ export function defineConfig(options: OptionsConfig = {}): Linter.Config[] {
     env = 'auto',
     ts = true,
     html: enableHtml = true,
+    unicorn: enableUnicorn = true,
+    imports: enableImports = true,
     overrides = {},
   } = options;
 
@@ -82,12 +86,22 @@ export function defineConfig(options: OptionsConfig = {}): Linter.Config[] {
     configs.push(...html());
   }
 
-  // 8. Overrides
+  // 8. Unicorn
+  if (enableUnicorn) {
+    configs.push(...unicorn());
+  }
+
+  // 9. Imports
+  if (enableImports) {
+    configs.push(...imports());
+  }
+
+  // 10. Overrides
   if (Object.keys(overrides).length > 0) {
     configs.push(overrides);
   }
 
-  // 9. Prettier (must be last)
+  // 11. Prettier (must be last)
   configs.push(...prettier());
 
   return configs;
